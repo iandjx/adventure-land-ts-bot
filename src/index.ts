@@ -2,9 +2,6 @@ import {setupParty} from './global/party'
 import * as AL from 'alclient'
 import path from 'path'
 
-const sum = (a: number) => {
-  console.log(a)
-}
 async function run() {
   await Promise.all([
     AL.Game.loginJSONFile(path.resolve('credentials.json')),
