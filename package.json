@@ -9,11 +9,12 @@
     "build": "tsc",
     "start": "node ./dist/index.js",
     "dev": "NODE_PATH=./src nodemon ./src/index.ts",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "check-types": "tsc",
+    "prettier": "prettier --ignore-path .gitignore \"**/*.+(js|json)\"",
     "format": "prettier -- --write",
-    "check-format": "prettier -- --list-different",
-    "validate": "yarn check-types check-format lint build",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx ."
+    "validate": "yarn check-types && yarn prettier && yarn lint ",
+    "prepare": "husky install"
   },
   "dependencies": {
     "alclient": "^0.3.11"
