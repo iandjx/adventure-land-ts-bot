@@ -9,11 +9,11 @@
     "build": "tsc",
     "start": "node ./dist/index.js",
     "dev": "NODE_PATH=./src nodemon ./src/index.ts",
+    "check-types": "tsc",
     "format": "prettier -- --write",
     "check-format": "prettier -- --list-different",
-    "validate": "check-types check-format lint build",
-    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
-    "check-types": "tsc"
+    "validate": "yarn check-types check-format lint build",
+    "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx ."
   },
   "dependencies": {
     "alclient": "^0.3.11"
