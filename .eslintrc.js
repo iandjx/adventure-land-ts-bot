@@ -14,6 +14,7 @@ module.exports = {
   ],
   rules: {
     strict: ['error', 'never'],
+    'no-constant-condition': 'off',
   },
   env: {
     browser: true,
