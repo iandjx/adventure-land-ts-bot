@@ -1,8 +1,10 @@
 import {setupParty} from './global/party'
 import * as AL from 'alclient'
-// import {healPartyMemberLoop} from 'priest/heal'
 import {Character, Priest} from 'alclient'
 import settings from './settings.config'
+import getStatus from 'global/getstatus'
+import healLoop from 'priest/heal'
+import regenLoop from 'global/regenloop'
 
 const sleep = (ms: number | undefined) =>
   new Promise(resolve => setTimeout(resolve, ms))
@@ -17,96 +19,34 @@ async function run() {
   const ranger = await AL.Game.startRanger('crosscutting', 'US', 'II')
   const priest = await AL.Game.startPriest('priestiex', 'US', 'II')
 
+  type HealState = 'not-healing' | 'healing'
+
+  class GameState {
+    healState?: HealState
+    goldSender?: Character
+  }
+
+  const gameState = new GameState()
+  console.log(gameState.healState)
+
   const farmers = [ranger, priest, warrior]
-  let healing = false
+  let healState = false
   let farmerToSendGoldFrom = ''
+
+  //GLOBAL LOOPS
   setupParty(merchant, farmers)
-  console.log('Adventure Start!')
 
-  async function getStatus() {
-    while (true) {
-      try {
-        for (const farmer of farmers) {
-          console.log(farmer.id, ' status ')
-          console.log('Max HP ', farmer.max_hp, 'Current HP', farmer.hp)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+  getStatus(farmers)
 
-      await sleep(10000)
-    }
-  }
+  healState = await healLoop(priest, [merchant, ranger, warrior])
 
-  getStatus()
-  async function healLoop(priest: Priest, farmers: Character[]) {
-    const maxHeal = priest.attack
-    while (true) {
-      for (const member of farmers) {
-        try {
-          if (member.hp <= member.max_hp - maxHeal) {
-            console.log(member.id, ' needs healing. current hp ', member.hp)
-
-            if (getDistance(priest, member) > priest.range) {
-              await priest.smartMove({x: member.x, y: member.y})
-              healing = true
-              continue
-            }
-            const cooldown = priest.getCooldown('attack')
-            if (cooldown > 0) await sleep(cooldown) // Wait for attack to become ready
-
-            await priest.heal(member.id).catch(err => console.log(err))
-            console.log(member.id, ' healed for ', maxHeal)
-            healing = false
-          }
-        } catch (e) {
-          console.error(e)
-        }
-      }
-
-      await sleep(2000) /* Wait a bit until the next regen */
-    }
-  }
-  healLoop(priest, [merchant, ranger, warrior])
-
-  async function regenLoop() {
-    while (true) {
-      for (const farmer of farmers) {
-        try {
-          const cooldown = farmer.getCooldown('use_hp')
-          if (cooldown > 0) await sleep(cooldown) // Wait for regen to become ready
-
-          const mpRatio = farmer.mp / farmer.max_mp
-          const hpRatio = farmer.hp / farmer.max_hp
-
-          if (hpRatio < mpRatio) {
-            if (farmer instanceof Priest) {
-              console.log('regenhp')
-              await farmer.regenHP().catch(() => {
-                /* Empty to suppress messages */
-              })
-            }
-          } else {
-            // console.log('regenmp')
-            await farmer.regenMP().catch(() => {
-              /* Empty to suppress messages */
-            })
-          }
-        } catch (e) {
-          // console.error(e)
-        }
-      }
-
-      await sleep(250) /* Wait a bit until the next regen */
-    }
-  }
-  regenLoop()
+  regenLoop(farmers)
 
   async function moveLoop() {
     while (true) {
       for (const farmer of farmers) {
         try {
-          if (healing === true) {
+          if (healState === true) {
             if (farmer instanceof Priest) {
               continue
             }
@@ -143,7 +83,7 @@ async function run() {
     while (true) {
       for (const farmer of farmers) {
         try {
-          if (farmer instanceof Priest && healing) {
+          if (farmer instanceof Priest && healState) {
             continue
           }
           if (farmer.id === farmerToSendGoldFrom) {
