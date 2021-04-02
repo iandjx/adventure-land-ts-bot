@@ -1,16 +1,15 @@
 import {setupParty} from './global/party'
-import path from 'path'
-
 import * as AL from 'alclient'
 // import {healPartyMemberLoop} from 'priest/heal'
 import {Character, Priest} from 'alclient'
+import settings from './settings.config'
 
 const sleep = (ms: number | undefined) =>
   new Promise(resolve => setTimeout(resolve, ms))
 
 async function run() {
   await Promise.all([
-    AL.Game.loginJSONFile(path.resolve('credentials.json')),
+    AL.Game.login(settings.EMAIL, settings.PASSWORD),
     AL.Pathfinder.prepare(),
   ])
   const warrior = await AL.Game.startWarrior('rastarix', 'US', 'II')
