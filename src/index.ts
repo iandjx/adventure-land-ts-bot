@@ -40,7 +40,7 @@ async function run() {
 
   chestLoop(farmers)
 
-  respawnLoop(farmers)
+  respawnLoop(merchant, farmers)
 
   goldLoop(merchant, farmers, gameState)
 }
