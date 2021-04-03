@@ -4,13 +4,11 @@ import sleep from 'utils/sleep'
 async function chestLoop(farmers: Character[]): Promise<void> {
   while (true) {
     for (const farmer of farmers) {
-      try {
-        farmer.chests.forEach(async chest => {
-          await farmer.openChest(chest.id)
+      farmer.chests.forEach(async chest => {
+        await farmer.openChest(chest.id).catch(() => {
+          console.log('chest open fail')
         })
-      } catch (e) {
-        // console.error(e)
-      }
+      })
     }
 
     await sleep(1000) /* Wait a bit until the next attack */
