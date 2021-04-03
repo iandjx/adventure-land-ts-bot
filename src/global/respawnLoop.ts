@@ -1,15 +1,18 @@
-import {Character} from 'alclient'
+import {Character, Merchant} from 'alclient'
 import sleep from 'utils/sleep'
 
-async function chestLoop(farmers: Character[]): Promise<void> {
+async function respawnLoop(
+  merchant: Merchant,
+  farmers: Character[],
+): Promise<void> {
   while (true) {
     for (const farmer of farmers) {
-      try {
-        farmer.chests.forEach(async chest => {
-          await farmer.openChest(chest.id)
-        })
-      } catch (e) {
-        // console.error(e)
+      if (merchant.rip) {
+        merchant.respawn()
+      }
+      if (farmer.rip) {
+        console.log(farmer.id, ' died respawning')
+        farmer.respawn()
       }
     }
 
@@ -17,4 +20,4 @@ async function chestLoop(farmers: Character[]): Promise<void> {
   }
 }
 
-export default chestLoop
+export default respawnLoop
