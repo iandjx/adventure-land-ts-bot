@@ -19,7 +19,7 @@ async function healLoop(
             await priest.smartMove({x: member.x, y: member.y})
             gameState.healState = 'healing'
           }
-          const cooldown = priest.getCooldown('attack')
+          const cooldown = priest.getCooldown('heal')
           if (cooldown > 0) await sleep(cooldown) // Wait for attack to become ready
 
           await priest.heal(member.id).catch(err => console.log(err))
