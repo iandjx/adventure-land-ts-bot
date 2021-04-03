@@ -7,6 +7,7 @@ async function getStatus(farmers: Character[]): Promise<void> {
       for (const farmer of farmers) {
         console.log(farmer.id, ' status ')
         console.log('Max HP ', farmer.max_hp, 'Current HP', farmer.hp)
+        console.log('ccurent exp', farmer.xp)
       }
     } catch (error) {
       console.log(error)
