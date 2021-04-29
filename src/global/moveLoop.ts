@@ -1,4 +1,4 @@
-import {Character, Priest} from 'alclient'
+import { Character, Priest } from 'alclient'
 import sleep from 'utils/sleep'
 import GameState from './gameState'
 
@@ -15,13 +15,15 @@ async function moveLoop(
       if (!!gameState.goldSender && farmer.id === gameState.goldSender.id) {
         continue
       }
+      if (!farmer.s.monsterhunt) {
+        continue
+      }
       if (farmer.moving === true) {
         continue
       }
       const nearestGoo = farmer.getNearestMonster('crab')
       if (!nearestGoo) {
         // Move to crab spawn
-        // console.log('Moing to crabs')
         await farmer.smartMove('crab').catch(() => {
           /* Empty to suppress messages */
         })
