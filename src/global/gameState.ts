@@ -4,7 +4,7 @@ import { Entity } from 'alclient/build/Entity'
 type HealState = 'not-healing' | 'healing'
 
 export default class GameState {
-  healState?: HealState
+  healState: HealState = 'not-healing'
   goldSender?: Character | null
   coopTargetMonster?: { monster: Entity; distance: number } | null
 
