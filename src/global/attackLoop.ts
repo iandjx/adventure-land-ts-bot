@@ -24,8 +24,7 @@ async function attackLoop(
       if (cooldown > 0) await sleep(cooldown) // Wait for attack to become ready
 
       if (farmer.canUse('attack')) {
-        const attackableGoo = farmer.getNearestMonster('crab')
-
+        const attackableGoo = farmer.getNearestMonster('squig')
         if (attackableGoo && attackableGoo.distance < farmer.range) {
           await farmer.basicAttack(attackableGoo.monster.id).catch(() => {
             /* Empty to suppress messages */

@@ -21,10 +21,10 @@ async function moveLoop(
       if (farmer.moving === true) {
         continue
       }
-      const nearestGoo = farmer.getNearestMonster('crab')
+      const nearestGoo = farmer.getNearestMonster('squig')
       if (!nearestGoo) {
         // Move to crab spawn
-        await farmer.smartMove('crab').catch(() => {
+        await farmer.smartMove('squig').catch(() => {
           /* Empty to suppress messages */
         })
       } else if (nearestGoo.distance > farmer.range && !farmer.moving) {
