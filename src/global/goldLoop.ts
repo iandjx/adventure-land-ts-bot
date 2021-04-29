@@ -1,5 +1,5 @@
-import {Merchant, Character} from 'alclient'
-import {getDistance} from 'utils/getDistance'
+import { Merchant, Character } from 'alclient'
+import { getDistance } from 'utils/getDistance'
 import sleep from 'utils/sleep'
 import GameState from './gameState'
 
@@ -16,7 +16,6 @@ async function goldLoop(
 
           if (farmer.map !== merchant.map) {
             if (!merchant.moving) {
-              console.log('going to farmer location')
               merchant.smartMove(farmer.map)
             }
             continue
@@ -25,7 +24,7 @@ async function goldLoop(
           if (getDistance(merchant, farmer) > merchant.range) {
             if (!merchant.moving) {
               await merchant
-                .smartMove({map: farmer.map, x: farmer.x, y: farmer.y})
+                .smartMove({ map: farmer.map, x: farmer.x, y: farmer.y })
                 .catch(err => {
                   console.log(err)
                 })

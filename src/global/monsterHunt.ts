@@ -11,7 +11,6 @@ export default async function getMonsterHunt(
         console.log('getting a hunt')
         await farmer.smartMove('monsterhunter').catch(err => console.log(err))
         await farmer.getMonsterHuntQuest().catch(err => console.log(err))
-        console.log('hunt', farmer.s.monsterhunt)
       }
     }
     await sleep(1000)
