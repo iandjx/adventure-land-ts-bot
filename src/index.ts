@@ -43,6 +43,6 @@ async function run() {
 
   goldLoop(merchant, farmers, gameState)
 
-  getMonsterHunt(farmers)
+  // getMonsterHunt(farmers)
 }
 run()
