@@ -1,4 +1,33 @@
+import { Character } from 'alclient'
+import sleep from 'utils/sleep'
 //TODO Refactor to TS and optimize
+
+export default async function getMonsterHunt(
+  farmers: Character[],
+): Promise<void> {
+  while (true) {
+    for (const farmer of farmers) {
+      if (!farmer.s.monsterhunt) {
+        console.log('getting a hunt')
+        await farmer.smartMove('monsterhunter').catch(err => console.log(err))
+        await farmer.getMonsterHuntQuest().catch(err => console.log(err))
+        console.log('hunt', farmer.s.monsterhunt)
+      }
+    }
+    await sleep(1000)
+  }
+}
+// async function handleHuntQuest(farmers:Character[]){
+
+//     let monsterType;
+//     let huntedMonsters;
+
+//     for(const farmer of farmers){
+//         farmer.s.monsterhunt
+//         if(farmer.getMonsterHuntQuest())
+
+//     }
+// }
 // function handleHuntQuest() {
 //   let monsterType
 //   let huntedMonsters
