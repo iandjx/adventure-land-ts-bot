@@ -9,6 +9,8 @@ async function getStatus(farmers: Character[]): Promise<void> {
       console.log('Current Exp', farmer.xp)
       console.log('Current Level', farmer.level)
       console.log('huntiung', farmer.s.monsterhunt)
+      console.log('target', farmer.target)
+      console.log('farmer', farmer.targets)
     }
 
     await sleep(10000)
