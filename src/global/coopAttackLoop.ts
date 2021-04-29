@@ -1,6 +1,7 @@
 import { Character, Priest } from 'alclient'
 import sleep from 'utils/sleep'
 import GameState from './gameState'
+import * as AL from 'alclient'
 
 async function coopAttackLoop(
   farmers: Character[],
@@ -14,10 +15,6 @@ async function coopAttackLoop(
       gameState.coopTargetMonster = null
     }
 
-    if (gameState.coopTargetMonster) {
-      console.log(gameState.coopTargetMonster.monster.id)
-    }
-
     for (const farmer of farmers) {
       if (farmer instanceof Priest && gameState.healState === 'healing') {
         continue
@@ -26,22 +23,42 @@ async function coopAttackLoop(
         continue
       }
 
-      if (!farmer.s.monsterhunt) {
-        continue
-      }
+      // if (!farmer.s.monsterhunt) {
+      //   continue
+      // }
 
       const cooldown = farmer.getCooldown('attack')
       if (cooldown > 0) await sleep(cooldown) // Wait for attack to become ready
 
-      if (farmer.canUse('attack') && farmer.ctype === 'warrior') {
-        const attackableGoo = farmer.getNearestMonster('squig')
-        gameState.coopTargetMonster = attackableGoo
-
-        if (attackableGoo && attackableGoo.distance < farmer.range) {
-          await farmer.basicAttack(attackableGoo.monster.id).catch(() => {
-            /* Empty to suppress messages */
-          })
+      if (
+        farmer.canUse('attack') &&
+        farmer.ctype === 'warrior' &&
+        gameState.coopTargetMonster
+      ) {
+        const distance = AL.Tools.distance(
+          { x: farmer.x, y: farmer.y },
+          {
+            x: gameState.coopTargetMonster.monster.x,
+            y: gameState.coopTargetMonster.monster.y,
+          },
+        )
+        if (distance > farmer.range) {
+          await farmer
+            .smartMove(gameState.coopTargetMonster.monster)
+            .catch(err => console.log(err))
         }
+
+        if (distance < farmer.range) {
+          await farmer
+            .basicAttack(gameState.coopTargetMonster.monster.id)
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      }
+
+      if (farmer.ctype === 'priest') {
+        console.log('priest time')
       }
 
       if (
@@ -49,12 +66,25 @@ async function coopAttackLoop(
         gameState.coopTargetMonster &&
         farmer.ctype !== 'warrior'
       ) {
-        console.log('attackble goo', gameState.coopTargetMonster.monster.id)
-        if (gameState.coopTargetMonster.distance < farmer.range) {
+        const distance = AL.Tools.distance(
+          { x: farmer.x, y: farmer.y },
+          {
+            x: gameState.coopTargetMonster.monster.x,
+            y: gameState.coopTargetMonster.monster.y,
+          },
+        )
+
+        if (distance > farmer.range) {
+          await farmer
+            .smartMove(gameState.coopTargetMonster.monster)
+            .catch(err => console.log(err))
+        }
+
+        if (distance < farmer.range) {
           await farmer
             .basicAttack(gameState.coopTargetMonster.monster.id)
-            .catch(() => {
-              //supress error
+            .catch(err => {
+              console.log(err)
             })
         }
       }

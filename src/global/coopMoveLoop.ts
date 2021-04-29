@@ -15,10 +15,6 @@ async function coopMoveLoop(
       gameState.coopTargetMonster = undefined
     }
     for (const farmer of farmers) {
-      if (gameState.coopTargetMonster) {
-        console.log(gameState.coopTargetMonster.monster.id)
-        console.log(farmer.name)
-      }
       if (gameState.healState === 'healing' && farmer instanceof Priest) {
         continue
       }
@@ -26,9 +22,9 @@ async function coopMoveLoop(
       if (!!gameState.goldSender && farmer.id === gameState.goldSender.id) {
         continue
       }
-      if (!farmer.s.monsterhunt) {
-        continue
-      }
+      // if (!farmer.s.monsterhunt) {
+      //   continue
+      // }
       if (farmer.moving === true) {
         continue
       }
@@ -61,7 +57,6 @@ async function coopMoveLoop(
           gameState.coopTargetMonster.distance > farmer.range &&
           !farmer.moving
         ) {
-          console.log('nearest goo', gameState.coopTargetMonster.distance)
           await farmer
             .smartMove(gameState.coopTargetMonster.monster)
             .catch(() => {
