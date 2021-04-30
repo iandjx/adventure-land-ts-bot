@@ -1,5 +1,5 @@
-import {Character, Priest} from 'alclient'
-import sleep from 'utils/sleep'
+import { Character, Priest } from 'alclient'
+import sleep from '../utils/sleep'
 
 async function regenLoop(farmers: Character[]): Promise<void> {
   while (true) {

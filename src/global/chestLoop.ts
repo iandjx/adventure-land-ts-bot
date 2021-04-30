@@ -1,5 +1,5 @@
-import {Character} from 'alclient'
-import sleep from 'utils/sleep'
+import { Character } from 'alclient'
+import sleep from '../utils/sleep'
 
 async function chestLoop(farmers: Character[]): Promise<void> {
   while (true) {

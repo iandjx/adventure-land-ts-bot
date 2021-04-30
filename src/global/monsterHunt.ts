@@ -1,5 +1,5 @@
 import { Character } from 'alclient'
-import sleep from 'utils/sleep'
+import sleep from '../utils/sleep'
 //TODO Refactor to TS and optimize
 
 export default async function getMonsterHunt(

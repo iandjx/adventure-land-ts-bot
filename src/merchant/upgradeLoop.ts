@@ -1,5 +1,5 @@
 import { Merchant, ItemName } from 'alclient'
-import sleep from 'utils/sleep'
+import sleep from '../utils/sleep'
 
 export async function upgradeLoop(
   merchant: Merchant,

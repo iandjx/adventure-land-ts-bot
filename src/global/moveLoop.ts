@@ -1,5 +1,5 @@
 import { Character, Priest } from 'alclient'
-import sleep from 'utils/sleep'
+import sleep from '../utils/sleep'
 import GameState from './gameState'
 
 async function moveLoop(

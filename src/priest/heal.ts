@@ -1,6 +1,6 @@
 import GameState from './../global/gameState'
-import {Priest, Character} from 'alclient'
-import {getDistance} from 'utils/getDistance'
+import { Priest, Character } from 'alclient'
+import { getDistance } from '../utils/getDistance'
 import sleep from '../utils/sleep'
 
 async function healLoop(
@@ -16,7 +16,7 @@ async function healLoop(
           console.log(member.id, ' needs healing. current hp ', member.hp)
 
           if (getDistance(priest, member) > priest.range) {
-            await priest.smartMove({x: member.x, y: member.y})
+            await priest.smartMove({ x: member.x, y: member.y })
             gameState.healState = 'healing'
           }
           const cooldown = priest.getCooldown('heal')

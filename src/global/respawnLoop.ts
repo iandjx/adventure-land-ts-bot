@@ -1,5 +1,5 @@
-import {Character, Merchant} from 'alclient'
-import sleep from 'utils/sleep'
+import { Character, Merchant } from 'alclient'
+import sleep from '../utils/sleep'
 
 async function respawnLoop(
   merchant: Merchant,

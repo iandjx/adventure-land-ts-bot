@@ -1,6 +1,6 @@
 import { Character, Merchant, Priest, Ranger, Warrior } from 'alclient'
-import { getDistance } from 'utils/getDistance'
-import sleep from 'utils/sleep'
+import { getDistance } from '../utils/getDistance'
+import sleep from '../utils/sleep'
 
 export default async function itemShareLoop(
   merchant: Merchant,

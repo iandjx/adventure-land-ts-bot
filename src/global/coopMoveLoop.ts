@@ -1,6 +1,6 @@
 import { Character, Priest } from 'alclient'
 import { Entity } from 'alclient/build/Entity'
-import sleep from 'utils/sleep'
+import sleep from '../utils/sleep'
 import GameState from './gameState'
 
 async function coopMoveLoop(
