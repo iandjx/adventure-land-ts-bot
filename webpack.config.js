@@ -3,10 +3,17 @@ const nodeExternals = require('webpack-node-externals')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: './index.ts',
+  context: path.resolve(__dirname, './src'),
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
+  },
+  stats: {
+    colors: true,
+    modules: true,
+    reasons: true,
+    errorDetails: true,
   },
   devtool: 'inline-source-map',
   module: {

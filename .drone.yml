@@ -1,0 +1,24 @@
+kind: pipeline
+type: docker
+name: adventure-land
+
+steps:
+  - name: create-env-file
+    image: node
+    environment:
+      EMAIL:
+        from_secret: EMAIL
+      PASSWORD:
+        from_secret: PASSWORD
+    commands:
+      - yarn global add create-env
+      - create-env --env-file .env
+  - name: publish-docker
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: USERNAME
+      password:
+        from_secret: PASSWORD_DOCKER
+      repo: iandjx/adventure-land
+      tags: latest
