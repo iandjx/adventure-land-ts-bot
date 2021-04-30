@@ -8,12 +8,6 @@ async function coopMoveLoop(
   farmers: Character[],
 ): Promise<void> {
   while (true) {
-    if (
-      gameState.coopTargetMonster &&
-      gameState.coopTargetMonster.monster.hp <= 0
-    ) {
-      gameState.coopTargetMonster = undefined
-    }
     for (const farmer of farmers) {
       if (gameState.healState === 'healing' && farmer instanceof Priest) {
         continue
@@ -31,16 +25,27 @@ async function coopMoveLoop(
 
       if (farmer.ctype === 'warrior') {
         const nearestGoo = farmer.getNearestMonster('squig')
-        gameState.coopTargetMonster = nearestGoo
+
         if (!nearestGoo) {
           // Move to crab spawn
           await farmer.smartMove('squig').catch(() => {
             /* Empty to suppress messages */
           })
-        } else if (nearestGoo.distance > farmer.range && !farmer.moving) {
-          await farmer.smartMove(nearestGoo.monster).catch(() => {
-            /* Empty to suppress messages */
-          })
+          continue
+        }
+        if (!gameState.coopTargetMonster) {
+          gameState.coopTargetMonster = nearestGoo
+        }
+
+        if (
+          gameState.coopTargetMonster.distance > farmer.range &&
+          !farmer.moving
+        ) {
+          await farmer
+            .smartMove(gameState.coopTargetMonster.monster)
+            .catch(() => {
+              /* Empty to suppress messages */
+            })
         }
       }
       if (farmer.ctype !== 'warrior') {

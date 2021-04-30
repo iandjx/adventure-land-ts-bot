@@ -8,14 +8,17 @@ async function coopAttackLoop(
   gameState: GameState,
 ): Promise<void> {
   while (true) {
-    if (
-      gameState.coopTargetMonster &&
-      gameState.coopTargetMonster.monster.hp <= 0
-    ) {
-      gameState.coopTargetMonster = null
-    }
-
     for (const farmer of farmers) {
+      if (gameState.coopTargetMonster) {
+        const target = farmer.entities.get(
+          gameState.coopTargetMonster.monster.id,
+        )
+        if (!target) {
+          console.log('squig dead yey!')
+          gameState.coopTargetMonster = null
+        }
+      }
+
       if (farmer instanceof Priest && gameState.healState === 'healing') {
         continue
       }
