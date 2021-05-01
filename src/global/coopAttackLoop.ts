@@ -60,10 +60,6 @@ async function coopAttackLoop(
         }
       }
 
-      if (farmer.ctype === 'priest') {
-        console.log('priest time')
-      }
-
       if (
         farmer.canUse('attack') &&
         gameState.coopTargetMonster &&
