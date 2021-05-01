@@ -13,3 +13,7 @@ built from ground up, for strongly typed classes and functions.
    <https://store.steampowered.com/app/777150/Adventure_Land__The_Code_MMORPG/>
 2. add an env file with EMAIL and PASSWORD of your account
 3. yarn && yarn dev
+
+## To try it out without buying an account
+
+1. docker run --rm -it iandjx/adventure-land
