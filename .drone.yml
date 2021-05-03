@@ -13,6 +13,7 @@ steps:
     commands:
       - yarn global add create-env
       - create-env --env-file .env
+      - cat .env
   - name: publish-docker
     image: plugins/docker
     settings:
