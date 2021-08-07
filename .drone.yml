@@ -2,7 +2,18 @@ kind: pipeline
 type: docker
 name: adventure-land
 
+workspace:
+  path: /drone/src
+
 steps:
+  - name: one
+    image: alpine
+    commands:
+      - echo "this is a line" > file.txt
+  - name: two  
+    image: alpine
+    commands:
+      - cat file.txt
   - name: create-env-file
     image: node
     environment:
